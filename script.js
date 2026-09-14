@@ -9,13 +9,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const botaoSim = document.getElementById("sim");
 
-    botaoSim.addEventListener("click", function () {
+    if (botaoSim) {
+        botaoSim.addEventListener("click", function () {
 
-        document.getElementById("tela1").classList.remove("ativa");
+            document.getElementById("tela1").classList.remove("ativa");
+            document.getElementById("tela2").classList.add("ativa");
 
-        document.getElementById("tela2").classList.add("ativa");
-
-    });
+        });
+    }
 
 
     // =========================
@@ -24,35 +25,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const botaoNao = document.getElementById("nao");
 
-    function fugir() {
+    if (botaoNao) {
 
-        botaoNao.style.position = "fixed";
+        function fugir() {
 
-        const larguraBotao = botaoNao.offsetWidth;
-        const alturaBotao = botaoNao.offsetHeight;
+            const larguraBotao = botaoNao.offsetWidth;
+            const alturaBotao = botaoNao.offsetHeight;
 
-        const x = Math.random() * (window.innerWidth - larguraBotao);
+            const maxX = window.innerWidth - larguraBotao - 20;
+            const maxY = window.innerHeight - alturaBotao - 20;
 
-        const y = Math.random() * (window.innerHeight - alturaBotao);
+            const x = Math.max(10, Math.random() * maxX);
+            const y = Math.max(10, Math.random() * maxY);
 
-        botaoNao.style.left = x + "px";
+            botaoNao.style.position = "fixed";
+            botaoNao.style.left = x + "px";
+            botaoNao.style.top = y + "px";
+        }
 
-        botaoNao.style.top = y + "px";
+        // Computador
+        botaoNao.addEventListener("mouseenter", fugir);
+
+        // Celular
+        botaoNao.addEventListener("touchstart", function (event) {
+
+            event.preventDefault();
+            fugir();
+
+        });
+
     }
-
-
-    // Computador
-    botaoNao.addEventListener("mouseenter", fugir);
-
-
-    // Celular
-    botaoNao.addEventListener("touchstart", function (event) {
-
-        event.preventDefault();
-
-        fugir();
-
-    });
 
 
     // =========================
@@ -61,13 +63,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const continuar1 = document.getElementById("continuar1");
 
-    continuar1.addEventListener("click", function () {
+    if (continuar1) {
 
-        document.getElementById("tela2").classList.remove("ativa");
+        continuar1.addEventListener("click", function () {
 
-        document.getElementById("tela3").classList.add("ativa");
+            document.getElementById("tela2").classList.remove("ativa");
+            document.getElementById("tela3").classList.add("ativa");
 
-    });
+        });
+
+    }
 
 
     // =========================
@@ -76,38 +81,75 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const continuar2 = document.getElementById("continuar2");
 
-    continuar2.addEventListener("click", function () {
+    if (continuar2) {
+
+        continuar2.addEventListener("click", function () {
+
+            const data = document.getElementById("data").value;
+
+            if (data === "") {
+
+                alert("Escolhe uma data primeiro, gatinho! 🥺💗");
+
+                return;
+            }
+
+            const dataFormatada = new Date(data + "T00:00:00")
+                .toLocaleDateString("pt-BR");
+
+            document.getElementById("dataEscolhida").innerHTML =
+                "📅 Nosso encontro será no dia <strong>" +
+                dataFormatada +
+                "</strong> 💗";
+
+            document.getElementById("tela3").classList.remove("ativa");
+            document.getElementById("tela4").classList.add("ativa");
+
+        });
+
+    }
+
+
+    // =========================
+// WHATSAPP
+// =========================
+
+const whatsapp = document.getElementById("whatsapp");
+
+if (whatsapp) {
+
+    whatsapp.addEventListener("click", function () {
 
         const data = document.getElementById("data").value;
 
-
         if (data === "") {
 
-            alert("Escolhe uma data primeiro, gatinho! 🥺💗");
+            alert("Escolhe uma data primeiro! 🥺");
 
             return;
-
         }
-
-
-        // Transformar a data para formato brasileiro
 
         const dataFormatada = new Date(data + "T00:00:00")
             .toLocaleDateString("pt-BR");
 
-
-        document.getElementById("dataEscolhida").innerHTML =
-            "📅 Nosso encontro será no dia <strong>" +
+        const mensagem =
+            "Oi, meu amor! 💗 Escolhi o dia " +
             dataFormatada +
-            "</strong> 💗";
+            " para dormir aí! 😍";
 
+        const numero = "5527996446213";
 
-        document.getElementById("tela3").classList.remove("ativa");
+        const link =
+            "https://wa.me/" +
+            numero +
+            "?text=" +
+            encodeURIComponent(mensagem);
 
-        document.getElementById("tela4").classList.add("ativa");
+        window.location.href = link;
 
     });
 
+}
 
     // =========================
     // CONTINUAR - TELA 4
@@ -115,12 +157,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const continuar3 = document.getElementById("continuar3");
 
-    continuar3.addEventListener("click", function () {
+    if (continuar3) {
 
-        document.getElementById("tela4").classList.remove("ativa");
+        continuar3.addEventListener("click", function () {
 
-        document.getElementById("tela5").classList.add("ativa");
+            document.getElementById("tela4").classList.remove("ativa");
 
-    });
+            document.getElementById("tela5").classList.add("ativa");
+
+        });
+
+    }
 
 });
